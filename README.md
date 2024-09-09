@@ -12,7 +12,7 @@ This project is a serverless API for retrieving football club and player informa
 ## Prerequisites
 
 - Python 3.x
-- Virtual environment (optional but recommended)
+- Virtual environment 
 - Google Cloud SDK installed and set up
 - Git installed
 - FastAPI installed (`pip install fastapi`)
