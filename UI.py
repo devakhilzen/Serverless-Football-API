@@ -54,11 +54,21 @@ if st.button("Get Player info"):
             player_info = response.json()
             st.write(player_info)
 
+            col1, col2 = st.columns(2)
+
             player_URL = player_info.get("Player_URL")
-            if player_URL:
-                st.image(player_URL,caption=f"Football Star {player_name}")
-            else:
-                st.write("no image found")
+            player_video = player_info.get("Player_Video")
+            with col1:
+                if player_URL:
+                    st.image(player_URL,caption=f"Football Star {player_name}")
+                else:
+                    st.write("no image found")
+
+            with col2:
+                if player_video:
+                    st.video(player_video,autoplay=True , muted= False )
+                else:
+                    st.write("")
 
         else:
             st.error("Player not found or an error occurred.")
@@ -77,6 +87,12 @@ if st.button("Get Club Tacticts"):
         if response.status_code == 200:
             tactics_info = response.json()
             st.write(tactics_info)
+
+            tactics = tactics_info.get("Tactics_URL")
+            if tactics:
+                st.image(tactics, caption=f"Tactics {tactics_name}")
+            else:
+                st.write("image not found")
         else:
             st.error("Tactics not found or an error occurred.")
     else:
