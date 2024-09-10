@@ -1,5 +1,6 @@
 import streamlit as st
 import requests
+from fastapi import HTTPException
 
 
 base_url = "http://127.0.0.1:8000" 
@@ -13,32 +14,34 @@ st.header("Football Clubs")
 club_name = st.text_input("Enter Club Name:")
 
 if st.button("Get Club info"):
-    if club_name:
-        url = f"{base_url}/club/{club_name}/" 
-        response = requests.get(url)
-        if response.status_code == 200:
-            club_info = response.json()
-            st.write(club_info)
+    try:
+        if club_name:
+            url = f"{base_url}/club/{club_name}/" 
+            response = requests.get(url)
+            if response.status_code == 200:
+                club_info = response.json()
+                st.write(club_info)
 
-            col1,col2 = st.columns(2)
+                col1,col2 = st.columns(2)
 
-            club_logo = club_info.get("Logo_URL")
-            jersey_url = club_info.get("Jersey_URL")
+                club_logo = club_info.get("Logo_URL")
+                jersey_url = club_info.get("Jersey_URL")
 
-            with col1:
-                if club_logo:
-                    st.image(club_logo, caption=f"{club_name} logo")
-                else:
-                    st.write("no logo found")
+                with col1:
+                    if club_logo:
+                        st.image(club_logo, caption=f"{club_name} logo")
+                    else:
+                        st.write("no logo found")
 
-            with col2:
-                if jersey_url:
-                    st.image(jersey_url, caption=f"{club_name} jersey")
-                else:
-                    st.write("no jersey found")
-        else:
-            st.error("Club not found")
-    else:
+                with col2:
+                    if jersey_url:
+                        st.image(jersey_url, caption=f"{club_name} jersey")
+                    else:
+                        st.write("no jersey found")
+            #else:
+                #st.error("Club not found")
+    except HTTPException:
+
         st.error("Please enter a club name.")
 
 
@@ -66,7 +69,13 @@ if st.button("Get Player info"):
 
             with col2:
                 if player_video:
-                    st.video(player_video,autoplay=True , muted= False )
+                    video_html = f"""
+                    <video width="600" height="400" controls autoplay muted>
+                        <source src="{player_video}" type="video/mp4">
+                        Your browser does not support the video tag.
+                    </video>
+                    """
+                    st.markdown(video_html, unsafe_allow_html=True)
                 else:
                     st.write("")
 
