@@ -1,9 +1,24 @@
 from fastapi import FastAPI, HTTPException
 from google.cloud import firestore
+from fastapi.middleware.cors import CORSMiddleware
 from models import Fan
 import requests
 
 app=FastAPI()
+
+origins = [
+    "*"  # For now, you can use "*" to allow all origins or specify the Streamlit frontend URL later.
+]
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
+
 
 db= firestore.Client()
 
