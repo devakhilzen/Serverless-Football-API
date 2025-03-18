@@ -7,7 +7,7 @@ import requests
 app=FastAPI()
 
 origins = [
-    "*"  # For now, you can use "*" to allow all origins or specify the Streamlit frontend URL later.
+    "*"  
 ]
 
 app.add_middleware(
